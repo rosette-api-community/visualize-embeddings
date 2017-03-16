@@ -1,7 +1,7 @@
 # Rosette API Text Embeddings Visualization Sample Code
 A simple Python script for transforming a corpus of documents in text vectors suitable for visualization in .tsv format. It uses the [Rosette API](https://developer.rosette.com/)'s `/text-embedding` endpoint and the [BBC News Corpus](http://mlg.ucd.ie/datasets/bbc.html). Note that the corpus is only free for research purposes.
 
-## To try it out
+## Getting started
 1. Clone the repo and open the files in your favorite text editor/python IDE.
 2. In `visualize-embeddings.py`, replace 'MY_ROSAPI_KEY' with your [Rosette API key](https://developer.rosette.com/admin/applications) and save.
 3. Run `visualize-embeddings.py` via your python IDE or command line:
