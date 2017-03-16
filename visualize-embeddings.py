@@ -4,6 +4,10 @@ import os
 import csv
 from rosette.api import API, DocumentParameters
 import codecs
+import argparse
+import sys
+
+
 class Document(object):
     def __init__(self, filepath, category, headline, content):
         self.filepath = filepath
@@ -26,7 +30,7 @@ def parse_bbc_data():
                 content = ifh.read()
                 yield Document(filepath, category, headline.strip(), content.strip())
 
-def vectorize_text(text, key=os.environ['MY_ROSAPI_KEY'], url='https://api.rosette.com/rest/v1/'):
+def vectorize_text(text, key, url='https://api.rosette.com/rest/v1/'):
     """
     Return the vector representation of the input text (as a list of floats).
     """
@@ -36,8 +40,19 @@ def vectorize_text(text, key=os.environ['MY_ROSAPI_KEY'], url='https://api.roset
     return api.text_embedding(params)["embedding"]
 
 if __name__ == '__main__':
-    METADATA_FILE_NAME = "metadata.tsv"
+    METADATA_FILE_NAME   = "metadata.tsv"
     EMBEDDINGS_FILE_NAME = "embeddings.tsv"
+    BBC_CORPUS_DIR_NAME  = "bbc"
+
+    parser = argparse.ArgumentParser(description='text embeddings demo program')
+    parser.add_argument('-k', '--key', help='Rosette API Key', required=True)
+    args = parser.parse_args()
+    
+    if not os.path.isdir(BBC_CORPUS_DIR_NAME):
+        print ("The BBC corpus is not accessible. Please download the raw text files zip from http://mlg.ucd.ie/datasets/bbc.html and extract it into the project root folder.")
+        sys.exit(1)
+
+
     docs = list(parse_bbc_data())
 
     # Iterate over the Documents and create the output files
@@ -46,9 +61,11 @@ if __name__ == '__main__':
             embeddings_writer = csv.writer(embeddings_fh, delimiter='\t', lineterminator="\n")
             metadata_writer = csv.writer(metadata_fh, delimiter='\t', lineterminator="\n")
             metadata_writer.writerow(["Category", "Headline"])
-            for doc in docs:
-                print len(vectorize_text(doc.content))
-                embeddings_writer.writerow(vectorize_text(doc.content))
+            for idx, doc in enumerate(docs):
+                if idx % 10 == 0:
+                    print "Processed {}/{} documents.".format(idx, len(docs))
+                    
+                embeddings_writer.writerow(vectorize_text(doc.content, args.key))
                 metadata_writer.writerow([doc.category, doc.headline.encode('utf-8')])
 
 
