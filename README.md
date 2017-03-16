@@ -2,9 +2,10 @@
 A simple Python script for transforming a corpus of documents into text vectors suitable for visualization in .tsv format. It uses the [Rosette API](https://developer.rosette.com/)'s `/text-embedding` endpoint and the [BBC News Corpus](http://mlg.ucd.ie/datasets/bbc.html). Note that the corpus is only free for research purposes.
 
 ## Getting started
-1. Clone the repo and open the files in your favorite text editor/python IDE.
-2. Download the [raw text files zip](http://mlg.ucd.ie/files/datasets/bbc-fulltext.zip), `bbc-fulltext.zip` from http://mlg.ucd.ie/datasets/bbc.html and extract it into the project root folder. You should get a folder called "bbc". 
-3. Run `visualize-embeddings.py` via your python IDE or command line (replace `ROSAPI_KEY` with your [Rosette API key](https://developer.rosette.com/admin/applications)):
+# Clone the repo and open the files in your favorite text editor/python IDE.
+# Download the [raw text files zip](http://mlg.ucd.ie/files/datasets/bbc-fulltext.zip), `bbc-fulltext.zip` from http://mlg.ucd.ie/datasets/bbc.html and extract it into the project root folder. You should get a folder called "bbc". 
+# Run `visualize-embeddings.py` via your python IDE or command line (replace `ROSAPI_KEY` with your [Rosette API key](https://developer.rosette.com/admin/applications)):
+
 ```$ python test_embeddings.py --key ROSAPI_KEY```
 
 You'll see that the script parses the raw text files of the corpus into a list of documents. Each document consist of 3 fields:
